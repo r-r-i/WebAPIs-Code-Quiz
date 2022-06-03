@@ -2,11 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <title>Web APIs: Code Quiz</title>
 </head>
 <body>
+
+    <header>
+        <div class="highscores">
+            <button id="highscoresBtn" class="highscoresButton">View Highscores</button>
+            <div class="timer">
+                <h1>Time: 0</h1>
+            </div>
+        </div>
+        
+    </header>
+
+
+    <section class="home">
+        <container class="startContainer">
+            <h2 class ="startHeader">Coding Quiz Challenge</h2>
+            <p class="startDesc">Try to answer the following code-related questions within the time limit. Keep in mind that incorret answers will penalize your score/time by ten seconds.</p>
+            <button id="startBtn" class="startButton">Start Quiz</button>
+        </container>
+    </section>
+
+    <section>
+        <container class="answerContainer">
+            <h2 class ="question">Commonly used data types DO NOT include:</h2>
+            <button id="answerOne" class="answerButton">1. Answer</button>
+            <button id="answerTwo" class="answerButton">2. Answer</button>
+            <button id="answerThree" class="answerButton">3. Answer</button>
+            <button id="answerFour" class="answerButton">4. Answer</button>
+        </container>
+    </section>
+
+    
     
 </body>
 </html>
