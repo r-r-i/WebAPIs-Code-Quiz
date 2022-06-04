@@ -1,4 +1,4 @@
-.startContainer {
+#startContainer {
     display:flex;
     flex-direction: column;
     align-items: center;
@@ -41,32 +41,47 @@
     border-radius: 5px;
 }
 
-.timer{
-    font-size:30px;
+#timer{
+    font-size:40px;
 }
 
-.home{
-    display:none;
-}
 
-.answerButton {
+.choice-text {
     width: 100px;
     padding:5px;
-    margin:10px;
     background-color: purple;
     border: solid .5px;
     border-radius: 5px;
 }
 
-.answerContainer {
-    display:flex;
+.choice-prefix{
+    padding:5px;
+}
+
+#questionText{
+    font-size:40px;
+    padding-bottom: 90px;
+
+}
+
+#questionContainer {
+    display:none;
     flex-direction: column;
     align-items: center;
     padding-top: 300px;
 
 }
 
-.question {
-    padding-bottom:75px;
-    font-size: 75px;
+.choice-container{
+    display:flex;
+    flex-direction: row;
+    padding: 20px;
 }
+
+/* .choice-container {
+    display:flex;
+    margin-bottom: 0.8rem;
+    padding:5px;
+    width:100%;
+    min-width: 80rem;
+} */

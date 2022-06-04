@@ -11,8 +11,8 @@
     <header>
         <div class="highscores">
             <button id="highscoresBtn" class="highscoresButton">View Highscores</button>
-            <div class="timer">
-                <h1>Time: 0</h1>
+            <div id="timer">
+                <h1>Time Left: <span id="countdown"></span></h1>
             </div>
         </div>
         
@@ -20,24 +20,37 @@
 
 
     <section class="home">
-        <container class="startContainer">
+        <container id="startContainer">
             <h2 class ="startHeader">Coding Quiz Challenge</h2>
-            <p class="startDesc">Try to answer the following code-related questions within the time limit. Keep in mind that incorret answers will penalize your score/time by ten seconds.</p>
+            <p class="startDesc">Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds.</p>
             <button id="startBtn" class="startButton">Start Quiz</button>
         </container>
     </section>
+    <div id="questionContainer">
+        <div id="questionText">What is the answer to this question</div>
+        <div class="choice-container">
+            <p class="choice-prefix">A</p>
+            <p class="choice-text" data-number="1">Choice</p>
+        </div>
+        <div class="choice-container">
+            <p class="choice-prefix">B</p>
+            <p class="choice-text" data-number="2">Choice 2</p>
+        </div>
+        <div class="choice-container">
+            <p class="choice-prefix">C</p>
+            <p class="choice-text" data-number="3">Choice 3</p>
+        </div>
+        <div class="choice-container">
+            <p class="choice-prefix">D</p>
+            <p class="choice-text" data-number="4">Choice 4</p>
+        </div>
+    </div>
+    
 
-    <section>
-        <container class="answerContainer">
-            <h2 class ="question">Commonly used data types DO NOT include:</h2>
-            <button id="answerOne" class="answerButton">1. Answer</button>
-            <button id="answerTwo" class="answerButton">2. Answer</button>
-            <button id="answerThree" class="answerButton">3. Answer</button>
-            <button id="answerFour" class="answerButton">4. Answer</button>
-        </container>
-    </section>
+
+
 
     
-    
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
