@@ -7,8 +7,114 @@
 //  7. highscores are rendered from local storage to show highscores page.
 
 var startEl = document.getElementById("startBtn");
-// var home = document.getElementById("#startContainer");
 var timerEl = document.getElementById('countdown');
+var question = document.querySelector('#question');
+var choices = Array.from(document.querySelectorAll('.choice-text'));
+
+let currentQuestion = {}
+let acceptingAnswers = true;
+let score = 0
+let availableQuestions = []
+
+let questions = [
+    {
+        question: 'commonly used data types do not include:',
+        choice1: 'strings',
+        choice2: 'booleans',
+        choice3: 'alerts',
+        choice4: 'numbers',
+        answer: 3,
+    },
+    {
+        question: 'the condition in an if/else statement is enclosed within ___.',
+        choice1: 'quotes',
+        choice2: 'curly brackets',
+        choice3: 'parentheses',
+        choice4: 'square brackets',
+        answer: 3,
+    },
+    {
+        question: 'arrays in javascript can be used to store ___.',
+        choice1: 'numbers and strings',
+        choice2: 'other arrays',
+        choice3: 'booleans',
+        choice4: 'all of the above',
+        answer: 4,
+    },
+    {
+        question: 'string values must be enclosed within ___ when being assigned to variables.',
+        choice1: 'commas',
+        choice2: 'curly brackets',
+        choice3: 'quotes',
+        choice4: 'parentheses',
+        answer: 3,
+    },
+    {
+        question: 'a very useful tool used during development and debugging for printing curent content to the debugger is:',
+        choice1: 'javascript',
+        choice2: 'terminal/bash',
+        choice3: 'for loops',
+        choice4: 'console.log',
+        answer: 4,
+    }
+]
+
+var score_points = 20
+var max_questions = 4
+
+function startGame(){
+    questionCount = 0
+    score = 0
+    availableQuestions = [...questions]
+    newQuestion()
+}
+
+function newQuestion(){
+    if(availableQuestions.length === 0 || questionCount > max_questions){
+        localStorage.setItem('recentScore', score)
+        //Set display of end screen
+    }
+    questionCount++
+
+    var questionIndex = Math.floor(Math.random() * availableQuestions.length)
+    currentQuestion = availableQuestions [questionIndex];
+    question.innerHTML = currentQuestion.question
+    
+
+    choices.forEach(choice => {
+        var number = choice.dataset['number']
+        choice.textContent = currentQuestion['choice' + number]
+    })
+
+    availableQuestions.splice(questionIndex, 1)
+
+    acceptingAnswers = true
+
+}
+
+choices.forEach(choice =>{
+    choice.addEventListener('click', e => {
+        if(!acceptingAnswers) return
+
+        acceptingAnswers = false;
+        var selectedChoice = e.target
+        var selectedAnswer = selectedChoice.dataset['number']
+
+        let classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect'
+
+        if (classToApply === 'correct'){
+            incrementScore(score_points)
+        }
+        
+        selectedChoice.parentElement.classList.add(classToApply)
+
+        setTimeout(() =>{
+            selectedChoice.parentElement.classList.remove(classToApply)
+            newQuestion()
+        },1000)
+    })
+})
+
 
 function hideHome(){
     document.querySelector("#startContainer").style.display = "none";
@@ -42,6 +148,8 @@ startEl.addEventListener("click", function() {
     showAnswer();
     countdown();
   });
+
+  startGame()
 
 
 
