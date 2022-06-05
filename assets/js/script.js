@@ -50,13 +50,13 @@ let questions = [
         answer: 3,
     },
     {
-        question: 'a very useful tool used during development and debugging for printing curent content to the debugger is:',
+        question: 'a very useful tool used during development and debugging for printing current content to the debugger is:',
         choice1: 'javascript',
         choice2: 'terminal/bash',
         choice3: 'for loops',
         choice4: 'console.log',
         answer: 4,
-    }
+    },
 ]
 
 var score_points = 20
@@ -102,16 +102,16 @@ choices.forEach(choice =>{
 
         let classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect'
 
-        if (classToApply === 'correct'){
+        if (classToApply === true){
             incrementScore(score_points)
         }
         
         selectedChoice.parentElement.classList.add(classToApply)
 
-        setTimeout(() =>{
-            selectedChoice.parentElement.classList.remove(classToApply)
+        setTimeout(() => {
+            selectedChoice.parentElement.classList.remove(classToApply);
             newQuestion()
-        },1000)
+        }, 1000)
     })
 })
 
@@ -125,8 +125,12 @@ function showAnswer(){
 
 }
 
+function showEnd(){
+    document.querySelector("#end").style.display = "flex";
+}
+
 function countdown(){
-    var timeLeft = 75;
+    var timeLeft = 15;
     var timeInterval = setInterval(function () {
         if (timeLeft > 1) {
         timerEl.textContent = timeLeft;
@@ -137,9 +141,10 @@ function countdown(){
     } else {
         timerEl.textContent = '';
         clearInterval(timeInterval);
-    }
+    } 
 }, 1000);
 }
+
 
 
 startEl.addEventListener("click", function() {
