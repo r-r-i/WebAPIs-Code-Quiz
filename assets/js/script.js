@@ -10,10 +10,12 @@ var startEl = document.getElementById("startBtn");
 var timerEl = document.getElementById('countdown');
 var question = document.querySelector('#question');
 var choices = Array.from(document.querySelectorAll('.choice-text'));
+var submitButton = document.querySelector("#submitBtn");
 
 let currentQuestion = {}
 let acceptingAnswers = true;
 let score = 0
+var timeLeft = 75;
 let availableQuestions = []
 
 let questions = [
@@ -71,8 +73,9 @@ function startGame(){
 
 function newQuestion(){
     if(availableQuestions.length === 0 || questionCount > max_questions){
-        localStorage.setItem('recentScore', score)
-        //Set display of end screen
+        localStorage.setItem('recentScore', score);
+        hideAnswer();
+        showEnd();
     }
     questionCount++
 
@@ -104,7 +107,7 @@ choices.forEach(choice =>{
 
         if (classToApply === true){
             incrementScore(score_points)
-        }
+        } 
         
         selectedChoice.parentElement.classList.add(classToApply)
 
@@ -116,6 +119,7 @@ choices.forEach(choice =>{
 })
 
 
+
 function hideHome(){
     document.querySelector("#startContainer").style.display = "none";
 };
@@ -124,13 +128,23 @@ function showAnswer(){
     document.querySelector("#questionContainer").style.display = "flex";
 
 }
-
-function showEnd(){
-    document.querySelector("#end").style.display = "flex";
+function hideAnswer(){
+    document.querySelector("#questionContainer").style.display = "none";
 }
 
+function showEnd(){
+    document.querySelector(".end-container").style.display = "flex";
+}
+
+function hideEnd(){
+    document.querySelector(".end-container").style.display = "none";
+}
+
+// function showHighScores(){
+// }
+
 function countdown(){
-    var timeLeft = 15;
+    
     var timeInterval = setInterval(function () {
         if (timeLeft > 1) {
         timerEl.textContent = timeLeft;
@@ -141,9 +155,26 @@ function countdown(){
     } else {
         timerEl.textContent = '';
         clearInterval(timeInterval);
+        hideAnswer();
+        showEnd()
     } 
 }, 1000);
 }
+
+submitButton.addEventListener("click", function(event) {
+    event.preventDefault();
+  
+    var initials = document.querySelector("#initials").value;
+    
+  
+    if (initials === "") {
+      alert("Initials cannot be left blank.");
+    } 
+      localStorage.setItem("initials", initials);
+    //   renderHighScore();
+    }
+  );
+
 
 
 
