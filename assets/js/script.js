@@ -83,7 +83,7 @@ function startQuiz(){
 // Function that generates a new question randomly. When there are no more questions to ask, hide question screen and display end screen.
 function newQuestion(){
     if(availableQuestions.length === 0 || questionCount > maxQuestions){
-        localStorage.setItem('recentScore', score);
+        
         hideAnswer();
         showEnd();
     }
@@ -117,7 +117,7 @@ choices.forEach(choice =>{
 
         if (classToApply === 'correct'){
             increaseScore();
-            console.log(10 + score);
+            console.log(10 + scorePoints);
             
         } 
         
@@ -131,8 +131,9 @@ choices.forEach(choice =>{
 })
 
 function increaseScore(){
-    var score = (localStorage.getItem('recentScore', score));
-    localStorage.setItem('recentScore', score + scorePoints);
+    var score = parseInt(localStorage.getItem("recentScore"));
+    localStorage.setItem("recentScore", score + scorePoints);
+    
     
 }
 
@@ -227,9 +228,10 @@ showHome();
 
 
 
-// Function that starts the quiz; timer starts, home screen hidden & question screen shown.
+// Function that starts the quiz; timer starts, home screen hidden & question screen shown, score in local storage is reset.
 startEl.addEventListener("click", function() {
     console.log("this works");
+    localStorage.setItem("recentScore", score);
     hideHome();
     showAnswer();
     countdown();
