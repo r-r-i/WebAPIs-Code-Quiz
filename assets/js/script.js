@@ -17,6 +17,8 @@ let acceptingAnswers = true;
 let score = 0
 var timeLeft = 75;
 let availableQuestions = []
+var scorePoints = 20;
+var maxQuestions = 4;
 
 let questions = [
     {
@@ -61,8 +63,7 @@ let questions = [
     },
 ]
 
-var score_points = 20
-var max_questions = 4
+
 
 function startGame(){
     questionCount = 0
@@ -72,7 +73,7 @@ function startGame(){
 }
 
 function newQuestion(){
-    if(availableQuestions.length === 0 || questionCount > max_questions){
+    if(availableQuestions.length === 0 || questionCount > maxQuestions){
         localStorage.setItem('recentScore', score);
         hideAnswer();
         showEnd();
@@ -105,8 +106,10 @@ choices.forEach(choice =>{
 
         let classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect'
 
-        if (classToApply === true){
-            incrementScore(score_points)
+        if (classToApply === 'correct'){
+            increaseScore();
+            console.log(10 + score);
+            
         } 
         
         selectedChoice.parentElement.classList.add(classToApply)
@@ -118,7 +121,18 @@ choices.forEach(choice =>{
     })
 })
 
+function increaseScore(){
+    var score = (localStorage.getItem('recentScore', score));
+    localStorage.setItem('recentScore', score + scorePoints);
+    
+}
 
+
+// if (classToApply === 'correct'){
+//     localStorage.setItem('recentScore', score + scorePoints);
+//     console.log(10 + score);
+    
+// } 
 
 function hideHome(){
     document.querySelector("#startContainer").style.display = "none";
@@ -135,7 +149,7 @@ function hideAnswer(){
 function showEnd(){
     document.querySelector(".end-container").style.display = "flex";
 }
-
+// Use this function when submit button is clicked, takes user to highscores page.
 function hideEnd(){
     document.querySelector(".end-container").style.display = "none";
 }
