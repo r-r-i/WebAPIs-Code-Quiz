@@ -13,6 +13,7 @@ var choices = Array.from(document.querySelectorAll('.choice-text'));
 var submitButton = document.querySelector("#submitBtn");
 var highscoreButton = document.querySelector("#highscoresBtn");
 var backButton = document.querySelector("#backBtn");
+var userInitialsSpan = document.querySelector("#userDet");
 
 let currentQuestion = {}
 let acceptingAnswers = true;
@@ -65,7 +66,11 @@ let questions = [
         answer: 4,
     },
 ]
-
+// Function that puts the user's initials onto the highscores page.
+function renderUserScore(){
+    var userInitials = localStorage.getItem("initials");
+    userInitialsSpan.textContent = userInitials;
+}
 
 // Function that starts the quiz, and resets the score and question index back to 0. Stores the questions array into the availableQuestions array.
 function startQuiz(){
@@ -131,9 +136,6 @@ function increaseScore(){
     
 }
 
-
-
-
 // Functions for buttons that change between screens.
 function showHome(){
     document.querySelector("#startContainer").style.display = "flex";
@@ -179,6 +181,9 @@ function countdown(){
     } else if (timeLeft === 1) {
         timerEl.textContent = timeLeft;
         timeLeft--;
+    } else if (availableQuestions.length === 0){
+        timerEl.textContent = '';
+        clearInterval(timeInterval);
     } else {
         timerEl.textContent = '';
         clearInterval(timeInterval);
@@ -202,7 +207,7 @@ submitButton.addEventListener("click", function(event) {
       hideEnd();
       showHigh();
       
-    //   renderHighScore();
+    renderUserScore();
     }
   );
 
