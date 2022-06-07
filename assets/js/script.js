@@ -11,6 +11,8 @@ var timerEl = document.getElementById('countdown');
 var question = document.querySelector('#question');
 var choices = Array.from(document.querySelectorAll('.choice-text'));
 var submitButton = document.querySelector("#submitBtn");
+var highscoreButton = document.querySelector("#highscoresBtn");
+var backButton = document.querySelector("#backBtn");
 
 let currentQuestion = {}
 let acceptingAnswers = true;
@@ -20,6 +22,7 @@ let availableQuestions = []
 var scorePoints = 20;
 var maxQuestions = 4;
 
+// Questions and Answers are stored within an array that we pull from later.
 let questions = [
     {
         question: 'commonly used data types do not include:',
@@ -64,14 +67,15 @@ let questions = [
 ]
 
 
-
-function startGame(){
+// Function that starts the quiz, and resets the score and question index back to 0. Stores the questions array into the availableQuestions array.
+function startQuiz(){
     questionCount = 0
     score = 0
     availableQuestions = [...questions]
     newQuestion()
 }
 
+// Function that generates a new question randomly. When there are no more questions to ask, hide question screen and display end screen.
 function newQuestion(){
     if(availableQuestions.length === 0 || questionCount > maxQuestions){
         localStorage.setItem('recentScore', score);
@@ -97,11 +101,11 @@ function newQuestion(){
 }
 
 choices.forEach(choice =>{
-    choice.addEventListener('click', e => {
+    choice.addEventListener('click', function(event) {
         if(!acceptingAnswers) return
 
         acceptingAnswers = false;
-        var selectedChoice = e.target
+        var selectedChoice = event.target
         var selectedAnswer = selectedChoice.dataset['number']
 
         let classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect'
@@ -128,11 +132,12 @@ function increaseScore(){
 }
 
 
-// if (classToApply === 'correct'){
-//     localStorage.setItem('recentScore', score + scorePoints);
-//     console.log(10 + score);
-    
-// } 
+
+
+// Functions for buttons that change between screens.
+function showHome(){
+    document.querySelector("#startContainer").style.display = "flex";
+};
 
 function hideHome(){
     document.querySelector("#startContainer").style.display = "none";
@@ -149,14 +154,22 @@ function hideAnswer(){
 function showEnd(){
     document.querySelector(".end-container").style.display = "flex";
 }
-// Use this function when submit button is clicked, takes user to highscores page.
+
 function hideEnd(){
     document.querySelector(".end-container").style.display = "none";
 }
 
-// function showHighScores(){
-// }
+function showHigh(){
+    document.querySelector(".highscore").style.display = "flex";
+    
+}
 
+function hideHigh(){
+    document.querySelector(".highscore").style.display = "none";
+}
+
+
+// Function that starts the timer. If the timer runs out, hide question page and display end screen.
 function countdown(){
     
     var timeInterval = setInterval(function () {
@@ -175,6 +188,7 @@ function countdown(){
 }, 1000);
 }
 
+// Stores the user's initials in local storage. If the user does not input anything, they are prompted to do so.
 submitButton.addEventListener("click", function(event) {
     event.preventDefault();
   
@@ -185,21 +199,38 @@ submitButton.addEventListener("click", function(event) {
       alert("Initials cannot be left blank.");
     } 
       localStorage.setItem("initials", initials);
+      hideEnd();
+      showHigh();
+      
     //   renderHighScore();
     }
   );
 
+// Function that shows highscores page
+highscoreButton.addEventListener("click", function(event){
+    event.preventDefault();
+    showHigh();
+    hideHome();
+})
+
+// Function that takes the user back to the home screen when the back button is clicked.
+backButton.addEventListener("click", function(event){
+event.preventDefault();
+hideHigh();
+showHome();
+})
 
 
 
+// Function that starts the quiz; timer starts, home screen hidden & question screen shown.
 startEl.addEventListener("click", function() {
     console.log("this works");
     hideHome();
     showAnswer();
     countdown();
-  });
+});
 
-  startGame()
+  startQuiz();
 
 
 

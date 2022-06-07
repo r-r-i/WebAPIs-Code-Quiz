@@ -38,7 +38,7 @@ body {
 }
 
 .highscoresButton{
-    width: 150px;
+    width: auto;
     padding:5px;
     background-color: lightblue;
     border: solid .5px;
@@ -144,6 +144,34 @@ body {
     transform: scale(1.05);
     cursor:pointer;  
 }
+
+
+.highscore {
+    display:none;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 300px;
+}
+
+.highscore h1 {
+    font-size: 75px;
+    padding-bottom: 20px;
+}
+
+.highscore-container ul li {
+    padding-bottom: 20px;
+}
+
+
+.highscoresButton:hover{
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+    cursor:pointer;  
+    
+
+}
+
 
 
 
