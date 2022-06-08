@@ -15,6 +15,7 @@ var highscoreButton = document.querySelector("#highscoresBtn");
 var backButton = document.querySelector("#backBtn");
 var userInitialsSpan = document.querySelector("#userDet");
 var clearButton = document.querySelector("#clearBtn");
+var userResultSpan = document.querySelector("#end-result")
 
 let currentQuestion = {}
 let acceptingAnswers = true;
@@ -86,10 +87,14 @@ function startQuiz(){
 // Function that generates a new question randomly. When there are no more questions to ask, hide question screen and display end screen.
 function newQuestion(){
     if(availableQuestions.length === 0 || questionCount > maxQuestions){
-        
+        var userScore = localStorage.getItem("recentScore");
+        userResultSpan.textContent = "Your final score is " + userScore;
+
+        timeLeft = 0;
         hideAnswer();
         showEnd();
     }
+
     questionCount++
 
     var questionIndex = Math.floor(Math.random() * availableQuestions.length)
@@ -125,7 +130,7 @@ choices.forEach(choice =>{
         } else if (classToApply === 'incorrect'){
             console.log("this works")
             timeLeft = timeLeft - 10;
-        }
+        } 
         
         selectedChoice.parentElement.classList.add(classToApply)
 
@@ -139,7 +144,6 @@ choices.forEach(choice =>{
 function increaseScore(){
     var score = parseInt(localStorage.getItem("recentScore"));
     localStorage.setItem("recentScore", score + scorePoints);
-    
     
 }
 
@@ -180,9 +184,9 @@ function hideHigh(){
 
 // Function that starts the timer. If the timer runs out, hide question page and display end screen.
 function countdown(){
-    
+
     var timeInterval = setInterval(function () {
-        if (timeLeft > 1) {
+    if (timeLeft > 1) {
         timerEl.textContent = timeLeft;
         timeLeft--;
     } else if (timeLeft === 1) {
@@ -191,7 +195,8 @@ function countdown(){
     } else if (availableQuestions.length === 0){
         timerEl.textContent = '';
         clearInterval(timeInterval);
-    } else {
+    }
+        else {
         timerEl.textContent = '';
         clearInterval(timeInterval);
         hideAnswer();
@@ -223,8 +228,11 @@ submitButton.addEventListener("click", function(event) {
 // Function that shows highscores page
 highscoreButton.addEventListener("click", function(event){
     event.preventDefault();
-    showHigh();
-    hideHome();
+
+        showHigh()
+        hideHome()
+        hideAnswer()
+    
 })
 
 // Function that takes the user back to the home screen when the back button is clicked.
