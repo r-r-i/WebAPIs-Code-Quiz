@@ -14,6 +14,7 @@ var submitButton = document.querySelector("#submitBtn");
 var highscoreButton = document.querySelector("#highscoresBtn");
 var backButton = document.querySelector("#backBtn");
 var userInitialsSpan = document.querySelector("#userDet");
+var clearButton = document.querySelector("#clearBtn");
 
 let currentQuestion = {}
 let acceptingAnswers = true;
@@ -70,6 +71,8 @@ let questions = [
 function renderUserScore(){
     var userInitials = localStorage.getItem("initials");
     userInitialsSpan.textContent = userInitials;
+    var userScore = localStorage.getItem("recentScore");
+    userInitialsSpan.textContent = userInitials + " scored " + userScore + " points";
 }
 
 // Function that starts the quiz, and resets the score and question index back to 0. Stores the questions array into the availableQuestions array.
@@ -119,7 +122,10 @@ choices.forEach(choice =>{
             increaseScore();
             console.log(10 + scorePoints);
             
-        } 
+        } else if (classToApply === 'incorrect'){
+            console.log("this works")
+            timeLeft = timeLeft - 10;
+        }
         
         selectedChoice.parentElement.classList.add(classToApply)
 
@@ -197,10 +203,8 @@ function countdown(){
 // Stores the user's initials in local storage. If the user does not input anything, they are prompted to do so.
 submitButton.addEventListener("click", function(event) {
     event.preventDefault();
-  
     var initials = document.querySelector("#initials").value;
     
-  
     if (initials === "") {
       alert("Initials cannot be left blank.");
     } 
@@ -211,6 +215,10 @@ submitButton.addEventListener("click", function(event) {
     renderUserScore();
     }
   );
+
+  clearButton.addEventListener("click", function(event){
+        userInitialsSpan.textContent = "";
+  });
 
 // Function that shows highscores page
 highscoreButton.addEventListener("click", function(event){
@@ -225,8 +233,6 @@ event.preventDefault();
 hideHigh();
 showHome();
 })
-
-
 
 // Function that starts the quiz; timer starts, home screen hidden & question screen shown, score in local storage is reset.
 startEl.addEventListener("click", function() {
