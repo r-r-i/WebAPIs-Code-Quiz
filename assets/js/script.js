@@ -5,25 +5,27 @@
 //  5. final page displays user's score, user inputs intials
 //  6. score saved to local storage
 //  7. highscores are rendered from local storage to show highscores page.
+var startButton = document.getElementById("startBtn");
+var submitButton = document.querySelector("#submitBtn");
+var clearButton = document.querySelector("#clearBtn");
+var backButton = document.querySelector("#backBtn");
+var highscoreButton = document.querySelector("#highscoresBtn");
+var userInitialsSpan = document.querySelector("#userDet");
+var userResultSpan = document.querySelector("#end-result");
 
-var startEl = document.getElementById("startBtn");
 var timerEl = document.getElementById('countdown');
 var question = document.querySelector('#question');
 var choices = Array.from(document.querySelectorAll('.choice-text'));
-var submitButton = document.querySelector("#submitBtn");
-var highscoreButton = document.querySelector("#highscoresBtn");
-var backButton = document.querySelector("#backBtn");
-var userInitialsSpan = document.querySelector("#userDet");
-var clearButton = document.querySelector("#clearBtn");
-var userResultSpan = document.querySelector("#end-result")
+
+var remainingTime = 75;
+var scorePoints = 20;
+var qMax = 4;
 
 let currentQuestion = {}
 let acceptingAnswers = true;
 let score = 0
-var timeLeft = 75;
 let availableQuestions = []
-var scorePoints = 20;
-var maxQuestions = 4;
+
 
 // Questions and Answers are stored within an array that we pull from later.
 let questions = [
@@ -84,24 +86,25 @@ function startQuiz(){
     newQuestion()
 }
 
-// Function that generates a new question randomly. When there are no more questions to ask, hide question screen and display end screen.
+// Function that generates questions and displays them on screen.
 function newQuestion(){
-    if(availableQuestions.length === 0 || questionCount > maxQuestions){
+    if(availableQuestions.length === 0 || questionCount > qMax){ // If there are no more questions to ask, display end screen.
         var userScore = localStorage.getItem("recentScore");
         userResultSpan.textContent = "Your final score is " + userScore;
 
-        timeLeft = 0;
+        remainingTime = 0;
         hideAnswer();
         showEnd();
     }
-
+    
     questionCount++
 
+    // Chooses a random question from the array above and display in html id #question. When a question is answered, it is pushed into the availableQuestions array.
     var questionIndex = Math.floor(Math.random() * availableQuestions.length)
     currentQuestion = availableQuestions [questionIndex];
     question.innerHTML = currentQuestion.question
     
-
+    // For each question, display the possible answers as the text content of the html based on its predefined 'data-number'.
     choices.forEach(choice => {
         var number = choice.dataset['number']
         choice.textContent = currentQuestion['choice' + number]
@@ -113,27 +116,28 @@ function newQuestion(){
 
 }
 
+// Determines wether the user has answered correctly or incorrectly.
 choices.forEach(choice =>{
     choice.addEventListener('click', function(event) {
         if(!acceptingAnswers) return
-
+        // Recognises wether the user clicks the correct or incorrect answer based on the selectedChoice.dataset where one of them is the answer.
         acceptingAnswers = false;
         var selectedChoice = event.target
         var selectedAnswer = selectedChoice.dataset['number']
+        // If correct or wrong, style the button differently. My tutor helped me to incorporate the use of (?) conditional operator.
 
         let classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect'
-
         if (classToApply === 'correct'){
             increaseScore();
             console.log(10 + scorePoints);
             
         } else if (classToApply === 'incorrect'){
             console.log("this works")
-            timeLeft = timeLeft - 10;
+            remainingTime = remainingTime - 10;
         } 
-        
+        // Adds a class to the answer the user chose, the classes above can be applied.
         selectedChoice.parentElement.classList.add(classToApply)
-
+        // Sets time between each question, so the user has time to notice wether they answered correctly or incorrectly.
         setTimeout(() => {
             selectedChoice.parentElement.classList.remove(classToApply);
             newQuestion()
@@ -141,6 +145,7 @@ choices.forEach(choice =>{
     })
 })
 
+// function that increases score by 20 & updates to local storage.
 function increaseScore(){
     var score = parseInt(localStorage.getItem("recentScore"));
     localStorage.setItem("recentScore", score + scorePoints);
@@ -184,19 +189,14 @@ function hideHigh(){
 
 // Function that starts the timer. If the timer runs out, hide question page and display end screen.
 function countdown(){
-
     var timeInterval = setInterval(function () {
-    if (timeLeft > 1) {
-        timerEl.textContent = timeLeft;
-        timeLeft--;
-    } else if (timeLeft === 1) {
-        timerEl.textContent = timeLeft;
-        timeLeft--;
-    } else if (availableQuestions.length === 0){
-        timerEl.textContent = '';
-        clearInterval(timeInterval);
-    }
-        else {
+    if (remainingTime > 1) {
+        timerEl.textContent = remainingTime;
+        remainingTime--;
+    } else if (remainingTime === 1) {
+        timerEl.textContent = remainingTime;
+        remainingTime--;
+    } else {
         timerEl.textContent = '';
         clearInterval(timeInterval);
         hideAnswer();
@@ -212,6 +212,7 @@ submitButton.addEventListener("click", function(event) {
     
     if (initials === "") {
       alert("Initials cannot be left blank.");
+      return
     } 
       localStorage.setItem("initials", initials);
       hideEnd();
@@ -221,6 +222,7 @@ submitButton.addEventListener("click", function(event) {
     }
   );
 
+// When the 'clear highscores' button is clicked, text content is set to " ".
   clearButton.addEventListener("click", function(event){
         userInitialsSpan.textContent = "";
   });
@@ -243,7 +245,7 @@ showHome();
 })
 
 // Function that starts the quiz; timer starts, home screen hidden & question screen shown, score in local storage is reset.
-startEl.addEventListener("click", function() {
+startButton.addEventListener("click", function() {
     console.log("this works");
     localStorage.setItem("recentScore", score);
     hideHome();
